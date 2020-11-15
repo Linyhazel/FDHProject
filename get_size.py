@@ -20,7 +20,7 @@ for filename in os.listdir('./images'):
         if(h<lh):
             lh=h
     except:
-    	print(filename)
+        print(filename)
 
 print("minimum width size is "+str(lw)) #102
 print("minimum height size is "+str(lh)) #243

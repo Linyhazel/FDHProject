@@ -7,13 +7,18 @@ import flickrapi
 flickr=flickrapi.FlickrAPI('c5af07877cc00731fbec3b2fc063a9e4','4d9ffde5a58411d6',cache=True)
 
 try:
-    photos=flickr.walk(text='Venice, building',has_geo=1,geo_context=2,extras='geo, url_m')
+    # for training data set
+    photos = flickr.walk(text='Venice, building',has_geo=1,geo_context=2,extras='geo, url_m')
+
+    # for testing data set
+    #photos = flickr.walk(text='Venice, building',has_geo=0,geo_context=2,extras='geo, url_m')
 except Exception as e:
     print('Error')
 
 count = 0
 
-file = open("venice_c1.txt","w+") 
+file = open("venice_m1.txt","w+") 
+#file = open("venice_test.txt","w+") 
 for photo in photos:
     count += 1
     lat=photo.get('latitude')
@@ -24,6 +29,8 @@ for photo in photos:
         if(float(lat)>=45.395688 and float(lat)<=45.468072 and float(lon)>=12.248631 and float(lon)<=12.396624):
             line = str(lat)+","+str(lon)+","+str(url)
             file.write(line+"\n")
+    # for test images
+    #file.write(str(url)+"\n")
 
 print(count)
 file.close()
