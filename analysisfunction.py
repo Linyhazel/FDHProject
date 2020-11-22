@@ -37,7 +37,7 @@ def img2error(img1,img2,label):
     lat1, lon1 = img2XY(img1, label)
     lat2,lon2 = img2XY(img2,label)
     
-    print(Eu_error(float(lat1),float(lon1),float(lat2),float(lon2)))
+    return Eu_error(float(lat1),float(lon1),float(lat2),float(lon2))
 
 def main():
     fs = 'label2.txt'
