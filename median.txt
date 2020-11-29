@@ -1,0 +1,2 @@
+95% CI of median of error by bootstrapping:
+[1.198612000000505e-05, 9.385347600000349e-05]
