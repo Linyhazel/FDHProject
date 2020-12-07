@@ -44,6 +44,12 @@ def getData(labelpath, picpath):
 
 # read data for training
 [data, labels] = getData("label.txt","./images/")
+
+# normalize labels
+meanlatlon = np.mean(labels,axis=0)
+stdlatlon = np.std(labels,axis=0)
+labels = (labels-meanlatlon)/stdlatlon
+
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.2, random_state=42)
 print("shape of trainX: ", trainX.shape)
 print("shape of trainY: ", trainY.shape)
@@ -71,9 +77,27 @@ for layer in baseModel.layers:
 
 # compile our model (this needs to be done after our setting our
 # layers to being non-trainable)
-print("[INFO] compiling model...")
-opt = Adam(lr=1e-4)
-model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
+model.compile(loss="mse", optimizer="adam")
 # train the head of the network for a few epochs (all other layers
 print("[INFO] training head...")
-model.fit(trainX, trainY, epochs=10, batch_size=12, shuffle=True)
+model.fit(trainX, trainY, epochs=20, batch_size=128, shuffle=True)
+
+print("Evaluate on test data")
+results = model.evaluate(testX, testY, batch_size=128)
+print("test loss, test acc:", results)
+
+
+import matplotlib.pyplot as plt
+
+image = cv2.imread("test1.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+test = cv2.resize(image, (224, 224))
+
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(15, 7), dpi=100, sharex=True, sharey=True)
+ax.imshow(cv2.cvtColor(test, cv2.COLOR_BGR2RGB))
+ax.axis('off')
+
+predictY = model.predict(test.reshape(1,224,224,3))
+
+predictY = predictY*stdlatlon+meanlatlon
+print(predictY)

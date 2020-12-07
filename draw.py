@@ -49,3 +49,11 @@ def drawMap():
     
 # region is too small to draw map using provided api    
 drawMap()
+
+
+#45.448851，12.359622
+#45.426919，12.310159
+
+
+45.433618 12.339249
+45.433964 12.337186
