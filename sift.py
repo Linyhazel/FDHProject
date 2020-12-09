@@ -18,8 +18,8 @@ match_dic = {}
 matched_distance = {}
 
 # for every image, calculate its sift features
-for filename in os.listdir('./images'):
-    img = cv2.imread('./images/'+str(filename),0) # flag=0, read as gray scale
+for filename in os.listdir('./data/images'):
+    img = cv2.imread('./data/images/'+str(filename),0) # flag=0, read as gray scale
 
     # Initiate SIFT detector
     sift = cv2.xfeatures2d.SIFT_create()
@@ -48,6 +48,6 @@ best_matched = min(matched_distance, key=matched_distance.get)
 print(best_matched)
 
 # show the mached image and the matches
-matched_img = cv2.imread('./images/'+best_matched,0)
+matched_img = cv2.imread('./data/images/'+best_matched,0)
 result = cv2.drawMatches(iimg, ikp, matched_img, kp_dic[best_matched], match_dic[best_matched], matched_img, flags=2)
 plt.imshow(result),plt.show()

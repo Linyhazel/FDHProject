@@ -9,7 +9,7 @@ from functools import partial
 
 def get_dist(filename, ides, matched_distance):
     # for every image, calculate its sift features
-    img = cv2.imread('./images/'+str(filename),0) # flag=0, read as gray scale
+    img = cv2.imread('./data/images/'+str(filename),0) # flag=0, read as gray scale
 
         # Initiate SIFT detector
     sift = cv2.xfeatures2d.SIFT_create()
@@ -41,7 +41,7 @@ if __name__=='__main__':
 
     matched_distance = defaultdict(list)
 
-    img_names = os.listdir('./images')
+    img_names = os.listdir('./data/images')
 
     print('Parent process %s.' % os.getpid())
     cpus = os.cpu_count() # 4 in my case
@@ -64,5 +64,5 @@ if __name__=='__main__':
     print(len(matched_distance))
 
     # show the mached image
-    matched_img = cv2.imread('./images/'+best_matched,0)
+    matched_img = cv2.imread('./data/images/'+best_matched,0)
     plt.imshow(matched_img),plt.show()
