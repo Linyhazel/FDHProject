@@ -39,7 +39,7 @@ def img2error(img1,img2,label):
 #input_img = input ("Enter path to image: ") 
 time_start=time.time()
 
-fs = 'label.txt'
+fs = './data/label.txt'
 label = Readlabel(fs)
 
 imgs = label['img']
@@ -65,7 +65,7 @@ match_list = []
 for input_img in test_imgs:
     test_list.append(input_img)
     
-    iimg = cv2.imread('./images/'+str(input_img),0) # flag=0, read as gray scale
+    iimg = cv2.imread('./data/images/'+str(input_img),0) # flag=0, read as gray scale
     isift = cv2.xfeatures2d.SIFT_create()
     ikp, ides = isift.detectAndCompute(iimg,None)
     
@@ -74,7 +74,7 @@ for input_img in test_imgs:
     match_dic = {}
     matched_distance = {}
     for filename in match_imgs:
-        img = cv2.imread('./images/'+str(filename),0) # flag=0, read as gray scale
+        img = cv2.imread('./data/images/'+str(filename),0) # flag=0, read as gray scale
 
         # Initiate SIFT detector
         sift = cv2.xfeatures2d.SIFT_create()

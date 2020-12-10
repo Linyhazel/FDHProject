@@ -57,12 +57,12 @@ def img2error(img1,img2,label):
     
     return Eu_error(float(lat1),float(lon1),float(lat2),float(lon2))
 
-fs = 'label.txt'
+fs = './data/label.txt'
 label = Readlabel(fs)
 
-test = pd.read_table('test.txt',header = None,sep = '\t')
+test = pd.read_table('./sift assessment results/test.txt',header = None,sep = '\t')
 test = test.values.tolist()
-match = pd.read_table('match.txt',header = None,sep = '\t')
+match = pd.read_table('./sift assessment results/match.txt',header = None,sep = '\t')
 match = match.values.tolist()
 
 error = []
@@ -74,5 +74,5 @@ bootstrap_CI(error, 10000)
 
 plt.title('distribution of error')
 plt.xlabel('error')
-sns.kdeplot(error)
+sns.displot(error, kde=False)
 plt.show()
