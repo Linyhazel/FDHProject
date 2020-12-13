@@ -27,13 +27,14 @@ def getData(labelpath, picpath):
 	inputs = []
 
 	for file in pic_files:
-		# load the image, swap color channels, and resize it to be a fixed
-		# 224x224 pixels while ignoring aspect ratio just for now
+		# load the image, and resize it to be a fixed
+		# 224x224 pixels while ignoring aspect ratio
 		image = cv2.imread(picpath+file)
 		image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-		image = cv2.resize(image, (224, 224))
+		image = cv2.resize(image, (224, 224)).astype(np.float32)
 		# update the input lists
 		inputs.append(image)
+
 
 	# convert the inputs and outputs to NumPy arrays
 	inputs = np.array(inputs)
@@ -45,26 +46,32 @@ def getData(labelpath, picpath):
 # read data for training
 [data, labels] = getData("label.txt","./images/")
 
-# normalize labels
-meanlatlon = np.mean(labels,axis=0)
-stdlatlon = np.std(labels,axis=0)
-labels = (labels-meanlatlon)/stdlatlon
+# normalize data
+data = data/255
 
-(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.2, random_state=42)
-print("shape of trainX: ", trainX.shape)
-print("shape of trainY: ", trainY.shape)
-print("shape of testX: ", testX.shape)
-print("shape of testY: ", testY.shape)
+# normalize labels using min-max
+maxlatlon = np.max(labels,axis=0)
+minlatlon = np.min(labels,axis=0)
+normalized_labels = (labels-minlatlon)/(maxlatlon-minlatlon)
 
+(trainX, testX, trainY, testY) = train_test_split(data, normalized_labels, test_size=0.1, random_state=42)
+
+
+def custom_loss_function(y_true, y_pred):
+   difference = tf.abs(y_true - y_pred)
+   return tf.reduce_sum(difference, axis=-1)
 
 # construct modified resnet
-baseModel = tensorflow.keras.applications.ResNet101(weights="imagenet", include_top=False,	input_tensor=Input(shape=(224, 224, 3)))
+baseModel = keras.applications.ResNet101(weights="imagenet", include_top=False,	input_tensor=Input(shape=(224, 224, 3)))
+
 # get the output before the classifier
 base_output = baseModel.output
+
 # change classifier to regressor output dimension is 2
 base_output = AveragePooling2D(pool_size=(4, 4))(base_output)
 base_output = Flatten(name="flatten")(base_output)
-base_output = Dense(2)(base_output)
+base_output = Dropout(0.2)(base_output)
+base_output = Dense(2, activation='linear', kernel_initializer='normal')(base_output)
 
 model = Model(inputs=baseModel.input, outputs=base_output)
 
@@ -73,18 +80,10 @@ model = Model(inputs=baseModel.input, outputs=base_output)
 for layer in baseModel.layers:
 	layer.trainable = False
 
-
-
-# compile our model (this needs to be done after our setting our
-# layers to being non-trainable)
 model.compile(loss="mse", optimizer="adam")
-# train the head of the network for a few epochs (all other layers
-print("[INFO] training head...")
-model.fit(trainX, trainY, epochs=20, batch_size=128, shuffle=True)
 
-print("Evaluate on test data")
-results = model.evaluate(testX, testY, batch_size=128)
-print("test loss, test acc:", results)
+print("[INFO] training head...")
+history = model.fit(trainX, trainY, epochs=35, batch_size=128, shuffle=True, validation_data=(testX, testY))
 
 
 import matplotlib.pyplot as plt
@@ -99,5 +98,5 @@ ax.axis('off')
 
 predictY = model.predict(test.reshape(1,224,224,3))
 
-predictY = predictY*stdlatlon+meanlatlon
+predictY = predictY*(maxlatlon-minlatlon)+minlatlon
 print(predictY)
