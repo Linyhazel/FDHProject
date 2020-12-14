@@ -4,7 +4,11 @@
 A method for recognising the places images represent and repositioning them on the map.
 
 ## Dataset
-We used the python package flickrapi to crawl photos with geo-coordinates inside Venice from Flickr. You can find these photos in 'data/images/'. However, if you just want to see the effect, you do not need to download the dataset, because we provide you with the trained model. You can find the model link below.
+We used the python package flickrapi to crawl photos with geo-coordinates inside Venice from Flickr. You can find a part of these photos in 'data/images/'. Since the directory was truncated to 1000 files, you can download the complete training set here:
+
+https://drive.google.com/drive/folders/13jphiHfbIzM11ZPx0ShYPu-NKwCkHE6P?usp=sharing
+
+However, you do not need to download the dataset if you just want to see the final effect, because we provide you with the trained model. You can find the model link below.
 
 ## Requirements
 This project is based on python3.7 and above.
