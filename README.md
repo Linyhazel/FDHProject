@@ -4,7 +4,7 @@
 A method for recognising the places images represent and repositioning them on the map.
 
 ## Dataset
-We used the python package flickrapi to crawl about 2390 photos with geo-coordinates inside Venice from Flickr. You can find a part of these photos in 'data/images/'. Since the directory was truncated to 1000 files, you can download the complete training set here:
+We used the python package flickrapi to crawl about 2390 photos with geo-coordinates inside Venice from Flickr. You can find a part of these photos in 'data/images/' and the complete 'label.txt' which contains all the coordinates corresponding to the photos in the training set. Since the 'images' directory was truncated to 1000 files, you can download the complete training set here:
 
 https://drive.google.com/drive/folders/13jphiHfbIzM11ZPx0ShYPu-NKwCkHE6P?usp=sharing
 
@@ -27,6 +27,8 @@ Due to the upload size limitation, we did not upload our trained model in this r
 https://drive.google.com/file/d/1wDbxPs0jIri-ea6WdRDsP2F88iPDfQ2s/view?usp=sharing
 
 Then add it to the ‘web app/model/’ path.
+
+To train a new model, download the dataset(photos and labels) and run resnet.ipynb.
 
 ## Wikipedia
 Find the wiki of this project here:
