@@ -32,3 +32,6 @@ Then add it to the ‘web app/model/’ path.
 Find the wiki of this project here:
 
 http://fdh.epfl.ch/index.php/Paintings_/_Photos_geolocalisation
+
+## Contributors
+Junhong Li, Yuanhui Lin, Zijun Cui
