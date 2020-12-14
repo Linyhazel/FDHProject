@@ -13,7 +13,7 @@ However, you do not need to download the dataset if you just want to see the fin
 ## Requirements
 This project is based on python3.7 and above.
 
-To run the web_app, you need to import Streamlit library: 
+To run the web_app, you need to import [Streamlit](https://www.streamlit.io/) library: 
 
 `<$ pip install streamlit>`
 
