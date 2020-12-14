@@ -15,11 +15,11 @@ This project is based on python3.7 and above.
 
 To run the web_app, you need to import [Streamlit](https://www.streamlit.io/) library: 
 
-`<$ pip install streamlit>`
+`$ pip install streamlit`
 
 Then download the web_app file and run the .py file
 
-`<streamlit run web_app.py>`
+`streamlit run web_app.py`
 
 ## Trained model
 Due to the upload size limitation, we did not upload our trained model in this repository. You can download the trained model here:
